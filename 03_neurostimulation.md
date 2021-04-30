@@ -59,7 +59,7 @@ These potential risks are empirically found. Between them:
 * Intersensory stimulation.
 
 Hence, TMS requires stringent control conditions:
-* Pulse timing contrast (i.e. $100 ms$, then $o ms$, then again $100 ms$);
+* Pulse timing contrast (i.e. $100 ms$, then $0 ms$, then again $100 ms$);
 * Topographic contrast (more control areas may occour);
 * Sham TMS.
 
