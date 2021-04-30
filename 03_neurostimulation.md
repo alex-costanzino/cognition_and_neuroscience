@@ -55,7 +55,7 @@ These potential risks are empirically found. Between them:
 * Interaction with implants;
 * Headache, due to the stimulation of superficial head and face muscles and nerves;
 * Hearing (ear-plugs are ereccomended);
-* Problem of acoustic noise and somatosensory stimulation, due to the muscle twitch of the internal ears:
+* Problem of acoustic noise and somatosensory stimulation, due to the muscle twitch of the internal ears;
 * Intersensory stimulation.
 
 Hence, TMS requires stringent control conditions:
