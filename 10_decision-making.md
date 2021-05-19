@@ -69,7 +69,7 @@ The subject needs to decide of he wants to get the food in exchange for that eff
 These tasks leads to psychometric choice (sigmoid) curves, that are consistent with the logistic choice model, and define the probability of choosing the food as a function of stimulus value (orange curve), and action cost (green curve), respectively.
 
 The probability of saying yes increases with the subjective values of the consumption good, and decreases with the action costs (B).
-<center>  <img  src=https://i.ibb.co/9GJmJGs/diffusion.png  width="600px"  />  </center>
+<center>  <img  src=https://i.ibb.co/9GJmJGs/diffusion.png  width="500px"  />  </center>
 
 **Drift diffusion model (DDM)**
 The DDM assumes that decisions are made by a noisy and dynamic process that accumulates information over time (**sequential sampling model**) from a starting point, towards one of the two response criteria (boundaries). 
@@ -115,7 +115,7 @@ Another approach to measuring neural responses to values is to measure activity 
 
 Changes in activation, measured in response to the stimulus following the devaluation, can be assumed to be related to a **change in the reward-value of the associated outcome**.
 
-### Slide 27,28,29
+*Note*: reward value evaluation in human seems to be in the amygdala and orbifrontal cortex.
 
 ### Validation circuitry
 Neurons sensitive to reward value are widespread in the brain. 
@@ -123,6 +123,8 @@ Satiation of the animal reduces the reward responses in orbifrontal cortex, sugg
 
 ## Value computation in OFC
 *Orbitofrontal cortex* (OFC) is specialized for reward processing. It contains a high frequency of neurons that show selective responses to delivery of food and liquid rewards, and other OFC neurons respond to cues that predict rewards. This activity discriminates between reward and no reward, preferred and non-preferred rewards.
+
+OFC has a key role in integrating multiple signals for the decision-makign process.
 
 Neural activity in the OFC plays a crucial role in the generation of expectancies concerning outcomes (important for prediction).
 
@@ -151,7 +153,7 @@ Choosing between immediate and delayed monetary rewards involves comparing neutr
 ACC and OFC lesions have distinct effects on how decision are made when both *reward* and *action cost* need to be considered in order to make decisions.
 
 *Experiment*: rats choose between two arms of a T-maze, associated with different pellets and barriers.
-<center>  <img  src=https://i.ibb.co/gFcD2P3/uno.png  width="700px"  />  </center>
+<center>  <img  src=https://i.ibb.co/gFcD2P3/uno.png  width="500px"  />  </center>
 
 * Normal control rats stil opted for high reward option, despite the effort of the barrier;
 * ACC lesions cause animals to always opt for the low reward option, not because they weren't able to make effortful action, but because they weren't able to **integrate together effort and reward information** like before.
@@ -169,7 +171,7 @@ Three different learning mechanism operate within the brain:
 * **Reinforcement learning**: aims at maximizing the value of action choices. The system that selects different actions is modified depending on the reward obtained. Agento and environment interacts continually.
 
 These different mechanism operates in different areas of the brain:
-<center>  <img  src=https://i.ibb.co/ZBDn7b9/brain-areas.png  width="600px"  />  </center>
+<center>  <img  src=https://i.ibb.co/ZBDn7b9/brain-areas.png  width="400px"  />  </center>
 
 The field of behavioural psychology focuses on the ability of animals to learn appropriate behaviour on the basis of the associated rewards or punishments. Animals and artificial systems face similar problems in learning how to optimizing their behaviour in the light of rewards and punishments.
 The field is traditionally separated in:
@@ -207,3 +209,282 @@ Instrumental learning algorithms are:
 
 Reinforcement learning is not just finding actions that produce a lot of reward, but also connecting these actions to situations or states.
 
+### Prediction and predition learnign during value learning
+In both types of conditioning learning is based on a comparison between reward actually obtained and the reward expected on the basis of previous learning. 
+The difference between these two quantities is known as **prediction error**: if the difference is large the predictions did not match observations, and more learning is needed. More formally: $$\delta_t = r_t - V_t$$
+where:
+* $r_t$ is the reward obtained;
+* $V_t$ is the value expected.
+
+The animal updates the prediction in the direction of the prediction error, to reduce it. Hence, in the next trial: $$V_{t+1} = V_t + \alpha \delta_t$$
+where $\alpha$ is the **learning rate**, a parameter in $[0,1]$, that determines the size of the update step.
+
+Learning is proportional to the prediction error $\delta$, that is larger at the start of the training, since the reward is unexpected, and gets smaller as the training progresses and the reward is correctly predicted.
+
+**Rescorla-Wagner learning rule**: a prediction error is generated when outcome differs from its prediction. In Pavlovian and instrumental conditioning, a prediction error that leads to a change in prediction, leads to a behavioural change. Otherwise, if there is a match, no prediction error is generated.
+
+### Temporal difference learning
+Rescorla-Wagner model suffers from two major difficulties:
+* Doesn't extend to high-order conditioning;
+* Doesn't take into account sensitivity of conditioning to different temporal relations between the conditional and unconditional stimuli.
+
+To overcome these two problems, **Sutton** and **Barto** suggested the **temporal difference learning rule** as a model of prediction learning in Pavlovian conditioning, an extension that takes into account the timing of different events, solving both problems.
+
+In TD learning the agent's goal is to estimate the values of different states or situations, in terms of future rewards or punishments that they predict.
+
+It considers a dynamic process, in which different states $S$ follow one another according to some predefined probability distribution $P(S_t+1|S_t)$, and rewards are observed at each state with probability $P(r|S)$. 
+A useful quantity to predict in such a situation is the **expected sum of all future rewards**, given the current state $S_t$, namely the value $V(S_t) = P(r|S_t) + \gamma \sum_{S_{t+1}} P(S_t+1|S_t) V(S_{t+1})$.
+
+The discount rate $\gamma$ was first introduced in order to ensure that the sum of future rewards is finite, however, it also aligns well with the fact that **humans and animals prefer earlier rewards to later ones**.
+
+This scheme suffers of one major problem: it requires knowledge of the dynamics of the environment in order to compute the TD prediction error. Unreasonable for Pavlovian conditioning.
+
+In a model-free case, where we cannot assume knowledge of the dynamics, it's the environment itself that supply this information: everytime that an animal is in a situation that corresponds to $S_t$ it can sample: 
+* The reward probability in this state;
+* The probabilities of transitions from this state to another.
+
+As it experiences different states repeatedly the animal obtain samples and updates the estimated values according to these samples, eventually leading to the correct predictive values: $$\delta_t = r_t + \gamma V(S_{t+1}) - V(S_t))$$
+
+### Dopinamergic system
+There is strong evidence that dopaminergic system is the major neural substrate of reward and reinforcement for both natural rewards and addictive drugs.
+<center>  <img  src=https://i.ibb.co/YXhXRG0/vfzsdfdf.png  width="400px"  />  </center>
+
+All neurons tha produce dopamine (that is a neuromodulator, not a neurotransmitter) are deep in the brain, and then it goes into two major pathways:
+* The one that originates from the *substantia nigra* (SNpc) and projects to the caudate-putamen, it's identified most strongly with **motor function** (most associated with action);
+* The one that starts from the *ventral tegmental area* (VTA) and projects in two separate area of the frontal cortex, it's important for motivational function (less associated with action).
+
+Dopamine neurons show phasic excitatory and inhibitory responses to different events, that can be interpreted as reward prediction error, similar to the one of Rescorla-Wagner.
+The activation comes from **rewarding stimuli**: 
+* About $75\%$ of dopamine neurons show phasic activation when animals touch a small piece of hidden food, or when drops of liquid are delivered to the mouth outside of any task. They do not discriminate between food and neurons (*identity*), but they distinguish rewards from non-rewards (*value*);
+* Only $14\%$ of dopmine neurons show phasic activation whe avversive stimuli are administred (i.e. pain or electrical shock).
+
+*Experiment*: a monkey puts the hand in a box (search task), touching something:
+* Dopamine responses to touch of food, without any phasic stimuli predicting the reward;
+* Differential response of dopamine neurons wrt touching a wire holding a piece of apple or an inedible object.
+
+Dopamine neurons respond differentially to unpredicted objects of differing reward values, consistently with a prediction error signal: prediction error is positive when a reward is delivered but not expected.
+
+*Note*: the dopamine neurons that fire with food are slow, like a metronome. Moreover they're food-invariant, they fire for food (*value*), not for the type (*identity*).
+
+#### Activation by conditioned stimuli
+About $55\% - 70\%$ of dopamine neurons are activated by visual and auditory *conditioned stimuli* (CS), that predicts rewards in various conditioned tasks. Only $10\%$ of dopamine neurons are activated by CS predicting avversive events.
+* Before learning, a drop of appetitive juice occours in absence of prediction. Hence there is a **positive error** in the prediction: the **dopamine neuron is activated by an unpredicted occurence of juice**;
+* After learning, the conditioned stimulus predicts reward, that comes according to the prediction. Hence there is **no error**: the **dopamine neuron is activated by the predicted reward**;
+* After learning, the conditioned stimulus predicts reward, that fails to occour. Hence there is a **negative error** in the prediction: the **dopamine neuron is depressed exactly at the time when reward would have occoured**.
+<center>  <img  src=https://i.ibb.co/k2pVLxb/vfzsdfdf.png  width="200px"  />  </center>
+
+#### Activation during learning
+The dopamine activation undergoes systematic changes during the progress of learning.
+Primary rewards elicit neuronal activations during initial learning periods, which decrease progressively and are transfered to the conditioned, reward-predicting stimuli with increasing learning.
+
+During a transient learning period, both rewards and conditioned stimuli elicit an activation.  
+*Example*: a dopamine neuron that responds initially to a juice reward acquires a response to the CS after some trials, in which the CS is paired with the reward.
+
+#### Prediction error signal is bidirectional
+The neuronal response of dopamine neurons is bidirectional: 
+* A reward that is unexpectedly delivered or is better than predicted elicits an activation (positive error);
+* An expected reward that is omitted, or is worse than expected, induces a depression (negative error).
+<center>  <img  src=https://i.ibb.co/0Jwj4ct/vsevevaev.png width="500px"  />  </center>
+
+#### Coding of reward probability by dopamine neurons
+Prediction error is modulated both by predictions (expected reward) as well as obtained rewards. 
+*Experiment*: in one study, five different visual CS predicted delivery of reward with different probabilities $p$, ranging in steps of $0.25$ from certain delivery ($p=1$), to certain non-delivery ($p=0$). 
+
+According to the Rescorla-Wagner and TD learning models, when the animal has learned the task, the prediction $V_t$ for each stimulus would indicate the average reward obtained for that stimulus (i.e. $1$ for the certain reward stimulus, $0.5$ for the stimulus rewarded $50\%$ of the time, and so on). 
+
+Thus the prediction error for reward delivery would be zero for the always rewarded stimulus, and large for the never-rewarded stimulus, and something in between for the others. Indeed, **phasic dopamine responses** to a reward have this property, they **increase with the size of the prediction error** (or, equivalently, decrease with the degree of reward probability). 
+<center>  <img  src=https://i.ibb.co/CWLyQZq/sfegg.png width="700px"  />  </center>
+
+#### Ramp-like tonic dopamine signals enocde reward uncertainty
+Some dopamine show a sustained increase in activity that grows from the onset of the conditioned stimulus to the expected time of reward. The peak of the sustained activation occurs at the **time of potential reward**, which corresponds to the **moment of greatest uncertainty**. 
+Tonic responses were significantly larger at $p = 0.5$, but in general,  measures of uncertainty (variance, standard deviation, and entropy) are all maximal at $p = 0.5$.
+ 
+Subjective reward uncertainty corresponds both to the **necessity of identifying more accurate predictors** , and to the **expectation of reward information in order to resolve uncertainty** (uncertainty is higher when we are xpecting the reward and it's extremely important to see if rewards arrives or not).
+
+#### Dopamine neurons report an error in the temporal prediction of reward
+Dopamine responses depend on event unexpectedness. 
+
+The unexpectedness, however, is not limited to event occurrence (i.e. reward is delivered or omitted unexpectedly), but also includes the time of reward, as rewards elicit transient activations when they are delivered earlier or later than predicted, even though it is certain that the reward will eventually occur.
+ 
+Moreover, dopamine neurons are depressed exactly at the time of the usual occurrence of reward when a predicted reward is omitted. The depression occurs even in the absence of any stimuli at the time of the omitted reward, indicating that the **depression does not constitute a simple neuronal response but reflects an expectation process based on an internal clock** tracking the precise time of predicted reward.  
+<center>  <img  src=https://i.ibb.co/Qpm7tbc/sfegg.png width="500px"  />  </center>
+
+#### Dopamine signal encodes model-based predictions
+Standard model-free reinforcement learning occours through prediction errors derived from actually experienced outcomes.
+However, individual also elarn about contexts, rules and task structures, called **models** of the world (cognitive map).
+
+Knowledge derived from models can deeply affect the prediction in the neuronal prediction error computation, resulting in a more appropriate teaching signal, and so an enhanced learning.
+
+Probably, the acquisition and updating of these models involves cortical signals (OFC) rather than dopamine ones. Dopamine responses seems to incorporate the predictive information from model once they're established.
+
+*Experiment*: in a study, sequences of non-rewarded trials lead to higher reward probability with non-rewarded trials.
+<center>  <img  src=https://i.ibb.co/hdw6H0T/trial.png width="500px"  />  </center>
+
+The task was a memory-guided saccade task with four possible target positions, but reward was given to only one of these positions. A cue stimulus indicated the saccade goal. The task included consecutive sub-blocks of 4 trials each, with one trial for each direction. Within a sub-block, one out of four directions was associated with reward (reward probability $25\%$), while the other three directions were not rewarded. 
+
+The task induced a specific profile of reward probability in relation to the preceding trials. The **probability of reward increased with the number of previous non-rewarded trials** (PNR, post reward trial number). 
+Reward probability was the lowest ($p = 0.0625$), if the preceding trial was rewarded (PRN: 1). In contrast, reward probability was the highest ($p=1.0$), if six preceding trials were not rewarded (PRN: 7). 
+
+Thus, the animal's reward prediction (e.g., reward expectancy) should increase after each unrewarded trial. As a consequence, positive prediction error (reward delivery) should decrease, and negative prediction error (reward omission) should increase after each non-rewarded trial. In line with this reasoning, dopamine neurons show decreasing activations to reward delivery (red line), and increasing depressions to reward omission (blue line), as the number of non-rewarded trials increases. 
+<center>  <img  src=https://i.ibb.co/9WB8ZY9/trial.png width="300px"  />  </center>
+
+Due to increasing reward prediction, later reward delivery induces increasingly weaker positive prediction errors, and reward omission elicits stronger negative prediction errors. In contrast, model-free reinforcement learning would only consider the past unrewarded trials and hence generate progressively decreasing reward prediction and an opposite, increasing pattern of prediction errors. 
+
+The observed dopamine prediction error responses are not fully explained by the previous experience with reward (model-free learning) but incorporate predictions from the task structure (model of the world). 
+Thus **dopamine neurons process prediction errors with both model-free and model-based reinforcement learning**. 
+
+*Note*: in this task the animal is not deciding, but just moving.
+
+*Experiment*: rat can learn model of environment (cognitive map, environement representation) and use it to plan flexibility. The rat was trained to find a food source located with a light. Then it was placed in the same starting position of a new maze, with the usual route blocked.
+
+If the rats had formed only state-action associations, where behaviors were or were not reinforced (a policy), they would not have a spatial map to guide them and they would likely choose the path most similar to the one that had originally lead to food. 
+
+In contrast, if the rats had formed something like a mental map of the original maze, they would know that the food was ahead and to the right, and should choose a path, which pointed in that direction. And this is exactly what the majority of them they did.
+
+## Value systems
+Humand and animal decisions are not governed by single unitary control, but rather by multiple valuation systems, which are sometimes in agreement, but often in conflict.
+There are three values systems that enable organisms to use previous experience to predict biologically significant events, and select appropriate behaviour.
+<center>  <img  src=https://i.ibb.co/W5wsY0R/gdsgav.png width="500px"  />  </center>
+
+These systems can operate in the domain of rewards (*appetitive outcomes*) and punishments (*aversive otucomes*).
+
+The distinction between model-free and model-based reinforcement learning algorithms corresponds to the distinction psychologists make between habitual and goal-directed control of learned behavioral patterns. 
+
+Habits are behaviors triggered by appropriate stimuli and then performed more-or-less automatically. Goal-directed behavior, is purposeful in the sense that it is controlled by knowledge of the value of goals and the relationship between actions and their consequences. 
+
+Habits are controlled by antecedent stimuli, whereas goal-directed actions are controlled by their consequences.
+
+*Note*: with these three systems correspond a specific pathway in the brain. 
+
+### Pavlovian system (stimulus-outcome associations)
+Certain environmental events trigger innate reflexive behaviours, that provide an adaptive response to environmental challenges. Pavlovian system is a mechanism by which an animal can learn to make prediction about when and where biologically significant events are likely to occour, in particular to learn which stimuli tend to precede them.
+
+Pavlovian cues allow the organism to predict and prepare behaviour in anticipation of behaviourally significant events, rather than responding in a reactive manner.
+Although adaptive in many circumstances, Pavlovian behaviours are inflexible and stereotyped.
+
+### Habitual systems (stimulus-response associations)
+Habitual system learns associations between stimuli and responses. 
+Such stimulus-response association are shaped by a reinforcement rule so that stimulus-response links leading to satisfaction are strengthened, whereas stimulus-response links leading to discomfort are weakened. 
+
+Habitual system can learn, through a process of trial-and-error, a large number of actions, as long as sufficient training is provided and the environment is sufficiently stable. It works simply by repeating actions that were previously successful (satisfactory).
+
+However, such a mechanism is incapable of evaluating novel actions.
+
+It's model based, extremely flexible but expensive and prone to error at beginning.
+
+### Goal-directed systems (action-outcome associations)
+The goal-directed system chooses actions based on the expected value of the outcomes associated with those actions (need to know if the action is followed by an outcome and if I like/want it at the moment). 
+
+A choice is goal directed if it depends on a representation of the action outcome contingency (i.e. knowledge that lever-pressing produces food) and on the outcome as a desired goal or incentive (that food is valuable). Otherwise it is seen as the product of some other influences, such as habitual or Pavlovian. 
+
+A key basis for distinguishing goal-directed and habitual behaviors experimentally is examining whether organisms can flexibly adjust their actions following a change in the reward value of an associated outcome. 
+
+*Experiment*
+First, a hungry rat learns to lever-press for food. After, the rat is fed to satiety with the food (devaluation), in the sense that the rat will not eat it if presented. 
+<center>  <img  src=https://i.ibb.co/KWtJjng/gdsgav.png width="500px"  />  </center>
+
+In the test, the rat is offered the chance to work again on the lever associated with the now-devalued food (like an all-you-can-eat):
+* If behavior were controlled by a goal-directed system, then animal would correctly decide not to press the lever (I don't need food anymore);
+* If behavior were controlled by a habitual system (i.e. by past satisfaction upon pressing the lever, not current value of the food), the animal would decide to press the lever (I press for habit, like binge-eating).
+ 
+The goal-directed system updates the value of an action as soon as the value of its outcome changes, whereas the habit system does not. 
+Ultimately, the stimulus-response link will be unlearned (by new experience showing that the lever-press no longer produces satisfaction), but initially the mechanism will produce inappropriate behavior (habit).
+
+**What determines which behaviour is observed after outcome evaluation?** One key-factor is the amount of training prior to devaluation. If animals are moderately trained on the task they maintain devaluation sensitivity, if they're over-trained their behaviour can become insensitive to devaluation, suggesting a shift from goal-directed to habital during the learning. 
+
+### Methods for outcome revaluation
+<center>  <img  src=https://i.ibb.co/QpPxSkW/asdada.png width="500px"  />  </center>
+
+#### Difference between model-free and model-based decision strategies
+*Experiment*: a rat navigates a maze with different outcomes at different end points. The rat starts at state $S_1$ and must choose either left or right. It must choose again at either $S_2$ or $S_3$, to turn left or right to harvest one outcome.
+<center>  <img  src=https://i.ibb.co/qxHd5Tx/model.png width="400px"  />  </center>
+
+There are two strategies to solve the sequential action selection problem:
+* By learning a **model of the environment** (consisting of a state-transition model and a reward model, essentially a state–action–outcome tree), the rat can decide whether to turn L or R at $S_1$ by searching through the tree (simulating its next action choices) and finding the path with the highest overall utility. Crucially, the current motivational state of the rat defines the relevant mapping between outcomes and utilities (numbers in boxes), such that when hungry (yellow), the rat will find choice L optimal at $S_1$, but when thirsty (blue), it will prefer R. **Behavior is thus goal-directed**;
+* By contrast, a **model-free strategy** relies on stored (cached) values in common currency for state–action pairs. These action values are estimates of the highest return the rat can expect for each action taken from each (nonterminal) state. Action selection simply involves choosing the action with the greatest cached value at the current state. Because the values are divorced from the identities of the outcomes produced by different actions, changes in the outcome–utility mapping (due to different motivation state, hunger or thirst) cannot be translated into appropriate changes in values.
+
+However, the motivational state (hunger, $H$) can be stored as part of the state representation. In this way, action selection can be modified to match a different motivational mapping (e.g. relevant to thirst, $T$) if the set of (state, action) values relevant to that state $\{(T;S_1,R),(T;S_2,L),. . .\}$ has previously been learned.
+
+Generally, when the environment of a model-free agent changes the way it reacts to the agent’s actions, the agent has to acquire new experience in the changed environment during which it can update its policy and/or value function. 
+
+For a **model-free agent** to change the action its policy specifies for a state, or to change an action value associated with a state (or both), it has to move to that state, act from it, possibly many times, and experience the consequences of its actions.
+
+A **model-based agent** can accommodate changes in its environment without this kind of "personal experience" with the states and actions affected by the change. A change in its model automatically (through planning) changes its policy.
+
+### Actor/Critic architecture in the brain
+The (external or internal) environment provides two signals to the system:
+* $S$, indicating the current state or stimuli; 
+* $r$ indicating the current reward. ù
+
+The Actor comprises of a mapping between states $S$ and action policies $\pi(a|S)$ (through modifiable weights or associative strengths). Its ultimate output is an action which then feeds back into the environment and serves to (possibly) earn rewards and change the state of the environment.
+
+The Critic comprises of a mapping between states $S$ and values $V$ (also through modifiable weights). The value of the current state provides input to a temporal difference (TD) module that integrates the value of the current state, the value of the previous state (indicated by the feedback arrow) and the current reward, to compute a prediction error signal. This signal is used to modify the mappings in both the Actor and the Critic.
+
+<center>  <img  src=https://i.ibb.co/vd0PzQH/actor-critic.png width="500px"  />  </center>
+
+In the Actor/Critic architecture the Critic stores and learns state values and uses these to compute prediction errors, by which it updates its own state values. 
+These same prediction errors are also conveyed to the Actor who stores and learns an action selection policy. The Actor uses the Critic’s prediction error as a surrogate reinforcement signal with which it can improve its policy. 
+
+In this particular division of labor, the “environment” sees only the output of the Actor, (i.e. the actions), however, rewards from the environment are only of interest to the Critic.
+
+*Experiment*: free choice.
+To explore Actor/Critic architecture in humans, *functional magnetic resonance imaging* (fMRI) data were collected from participants performing an instrumental and a Pavlovian conditioning tasks. The instrumental task was composed of two trial types: reward and neutral.
+
+In the reward trials, participants had to choose between one of two stimuli: 
+* One associated with a high probability (HP) of obtaining a juice reward (on 60% of occasions); 
+* The other with a low probability of obtaining a juice reward (on 30% of occasions). 
+
+In neutral trials, participants had to choose between two other stimuli associated with either a high (60%) or low (30%) probability of obtaining a neutral (unrewarding) solution.
+
+The Pavlovian task was identical to the instrumental task (with both reward and neutral trials), except that the computer made the selection and the participant’s task was to indicate which stimulus had been chosen by the computer.
+
+*Results*
+* Participants found the fruit juice to be significantly more pleasant than the control tasteless;
+* Participants chose the high-probability action significantly more often than the low-probability action in reward trials;
+* In the second phase of the experiment, participants were faster to respond during reward trials than neutral trials. This provides a behavioral measure of learning, providing some evidence that participants did acquire the Pavlovian associations.
+
+After the subtraction of the neutral condition in the fMRI we can see two main brain areas activated:
+* **Dorsal striatum**: prediction error only in instrumental task;
+* **Ventral striatum**: prediction error in both Pavlovian and instrumental task.
+
+<center>  <img  src=https://i.ibb.co/8BV630N/actor-critic.png width="500px"  />  </center>
+
+*Experiment*: forced choice, no alternatives.
+<center>  <img  src=https://i.ibb.co/6sPbYqk/monkey.png width="500px"  />  </center>
+
+Reference trials did not present the monkeys with a meaningful choice, and the particular prediction error reported by dopamine firing on presentation of an image simply corresponds to its associated reward probability. Monkeys adopted the common suboptimal choice strategy of **probability matching**, pursuing richer and poorer options in rough proportion to their relative worth. 
+
+This behavior was fortuitous because it allowed Morris et al. (2006) to record the activity of dopamine neurons on decision trials in which the monkey ultimately chose either the richer or the poorer option. The comparison of one with the other, and with the firing patterns from the single-image reference trials, provides a window onto the decision process.
+
+The central finding is that a **burst of dopaminergic responding at the outset of a decision trial nearly instantly reflects the average reward associated with the option that will ultimately be chosen**, even though the monkey cannot actually submit its decision until some seconds later. 
+
+Indeed, the neural response to the presentation of a pair of images is nearly the same in average.
+<center>  <img  src=https://i.ibb.co/sHfddZ8/boh.png width="500px"  />  </center>
+
+There are three main possibilities:
+* The first option (values are averaged over the choices $V_i$) would have been expected under the so-called actor-critic algorithm, which posits that a "critic" with no knowledge of the actions can track the average value of states; these values can, separately, be used as rewards to train an ‘actor’ that makes choices. 
+* The second option, Q learning, in which the prediction error associated with a decision is determined by the Q value of the better option rather than the one actually chosen. This is a very clever idea, as it **decouples learning from the actual choice and allows optimal behavior to be acquired while exploring suboptimal alternatives**. However, this is evidently too clever for the dopamine cells, whose activity follows the reference activity for the action actually chosen. 
+* The third option is the class of algorithms that acquire Q values using a prediction error that reflects the value of the chosen option. It is these so-called SARSA (state-action-reward-state-action) algorithms, that this study favors.
+
+**Graphs in the red rectangle**
+* **Top**: dopamine responses to conditioned stimulus in reference (empty circles) and decision (filled circles) trials, as a function of the action value (defined as the average probability ofreward following each action). 
+* **Bottom**: dopamine responses to reward delivery in the rewarded decision trials.
+
+### Why should the brain use two different controllers in parallel?
+If the brain uses two controllers, how can it arbitrate between the two when they disagree? It has been proposed that the brain relies on a controller of each class in circumstances in which its predictions tend to be most accurate.
+
+The brain might estimate this accuracy for the purpose of arbitration by tracking the relative uncertainty of the predictions made by each controller (when there is most variance in the prediction I can calculate the uncertainty).
+
+One class of controller involves **model-free** approaches such as temporal-difference learning, which reflects the activity of dopamine neurons and their dorsolateral striatal projections. The other class involves **model-based** methods, which we has been identified with the prefrontal cortex system.
+<center>  <img  src=https://i.ibb.co/0K1LLDp/boh.png width="600px"  />  </center>
+
+Model-free learning (cached values) is computationally simple but comes at the cost of inflexibility: action and values are divorced from the outcomes themselves and so do not immediately change with the re-valuation of the outcome.
+
+By contrast, model-based reinforcement learning method constructs predictions of long-run outcomes, not through cached storage, but rather on the fly. This involves exploring a branching set of possible future situations, a method also known as *tree search*. Search in deep trees can be **expensive in terms of memory and time** and can also be **error-prone**. However, that the predictions are constructed on the fly allows them to **react more quickly** to changed circumstances, as when outcomes are re-valued.
+<center>  <img  src=https://i.ibb.co/V2nrLdM/bnhbvkhb.png width="400px"  />  </center>
+
+**Early** in learning the planning process of a **model-based** system is **more trustworthy** because it chains together short-term predictions which can become accurate with less experience than long-term predictions of the model-free process (less sensitive to devaluation). 
+
+But with **continued experience**, the **model-free process** becomes **more trustworthy** because planning is prone to making mistakes due to model inaccuracies and short-cuts necessary to make planning feasible, such as various forms of tree-pruning: the removal of unpromising search tree branches (less sensitive to devaluation).  
+
+According to this idea one would expect a shift from goal-directed behavior to habitual behavior as more experience accumulates.
